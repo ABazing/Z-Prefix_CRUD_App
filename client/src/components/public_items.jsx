@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function PublicItems() {
+function Public_Items() {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
 
@@ -31,4 +31,4 @@ function PublicItems() {
   );
 }
 
-export default PublicItems;
+export default Public_Items;

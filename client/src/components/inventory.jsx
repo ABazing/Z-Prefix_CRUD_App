@@ -10,9 +10,9 @@ function Inventory({ user }) {
   // Fetch user's items
   useEffect(() => {
     const fetchMyItems = async () => {
-      const res = await fetch('http://localhost:3000/my-items', {
+      const res = await fetch('http://localhost:3000/my_items', {
         headers: {
-          'x-user-id': user.id
+          'x_user_id': user.id
         }
       });
       if (!res.ok) throw new Error('Failed to fetch user items');
@@ -38,7 +38,7 @@ function Inventory({ user }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': user.id
+        'x_user_id': user.id
       },
       body: JSON.stringify(newItem)
     });
@@ -46,9 +46,9 @@ function Inventory({ user }) {
     setNewItem({ item_name: '', description: '', quantity: '' });
 
     // Refresh both lists after creating a new item
-    const myItemsRes = await fetch('http://localhost:3000/my-items', {
+    const myItemsRes = await fetch('http://localhost:3000/my_items', {
       headers: {
-        'x-user-id': user.id
+        'x_user_id': user.id
       }
     });
     if (!myItemsRes.ok) throw new Error('Failed to fetch user items');
@@ -77,7 +77,7 @@ function Inventory({ user }) {
         <button type="submit">Add Item</button>
       </form>
 
-      <h2>Items I've Created</h2>
+      <h2>{user.first_name}'s Inventory</h2>
       {myItems.length === 0 ? (
         <p>You haven't added any items yet.</p>
       ) : (

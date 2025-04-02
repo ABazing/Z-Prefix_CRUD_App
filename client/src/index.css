@@ -21,16 +21,17 @@ form {
   margin-bottom: 20px;
 }
 
-input, textarea {
+input {
   padding: 8px;
   font-size: 16px;
+  border: 1px solid #000000;
 }
 
 button {
   padding: 8px 16px;
   background-color: #007bff;
-  color: white;
-  border: none;
+  color: rgb(255, 255, 255);
+  border: 1px solid #000000;
   cursor: pointer;
 }
 
@@ -48,8 +49,8 @@ li {
   justify-content: space-between;
   padding: 10px;
   background: white;
-  margin-bottom: 5px;
-  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border: 1px solid #000000;
 }
 
 a {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-function ItemDetails({ user }) {
+function Item_Details({ user }) {
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -24,7 +24,7 @@ function ItemDetails({ user }) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': user.id
+        'x_user_id': user.id
       },
       body: JSON.stringify(formData)
     });
@@ -40,7 +40,7 @@ function ItemDetails({ user }) {
     const deleteRes = await fetch(`http://localhost:3000/items/${id}`, {
       method: 'DELETE',
       headers: {
-        'x-user-id': user.id
+        'x_user_id': user.id
       }
     });
     if (!deleteRes.ok) throw new Error('Failed to delete item');
@@ -49,7 +49,6 @@ function ItemDetails({ user }) {
 
   if (!item) return <div>Loading...</div>;
 
-  // Check if the logged-in user is the creator of the item
   const isCreator = user && item.userId === user.id;
 
   return (
@@ -74,11 +73,11 @@ function ItemDetails({ user }) {
               <button onClick={handleDelete}>Delete</button>
             </>
           )}
-          <button onClick={() => navigate(user ? '/inventory' : '/public-items')}>Back</button>
+          <button onClick={() => navigate(user ? '/inventory' : '/public_items')}>Back</button>
         </div>
       )}
     </div>
   );
 }
 
-export default ItemDetails;
+export default Item_Details;

@@ -35,7 +35,7 @@ function Login({ setUser }) {
         <button type="submit">Login</button>
       </form>
       <p><a href="/register">Register an Account</a></p>
-      <p><a href="/public-items">View All Inventories</a></p>
+      <p><a href="/public_items">View All Inventories</a></p>
     </div>
   );
 }
