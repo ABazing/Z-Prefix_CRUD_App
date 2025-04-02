@@ -32,6 +32,7 @@ function ItemDetails({ user }) {
       headers: { 'x-user-id': user.id }
     });
     navigate('/inventory');
+    alert('Item Deleted.');
   };
 
   if (!item) return <div>Loading...</div>;

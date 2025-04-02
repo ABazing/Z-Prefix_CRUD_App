@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 20px;
-  background-color: #c0c0c0;
+  background-color: #cacaca;
 }
 
 .container {
@@ -35,7 +35,7 @@ button {
 }
 
 button:hover {
-  background-color: #00b30f;
+  background-color: #2655f0;
 }
 
 ul {
@@ -58,6 +58,6 @@ a {
 }
 
 a:hover {
-  color: #00b30f;
+  color: #2655f0;
   text-decoration: underline;
 }

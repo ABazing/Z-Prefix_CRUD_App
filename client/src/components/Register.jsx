@@ -20,7 +20,7 @@ function Register() {
       });
       navigate('/login');
     } catch (err) {
-      alert('Registration failed');
+      alert('Fill the fields out correctly.');
     }
   };
 
@@ -34,7 +34,7 @@ function Register() {
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit">Register</button>
       </form>
-      <p><a href="/login">Already have an account? </a></p>
+      <p><a href="/login">Already have an account?</a></p>
     </div>
   );
 }
