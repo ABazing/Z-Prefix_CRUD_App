@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
@@ -12,15 +11,22 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/register', {
-        first_name: firstName,
-        last_name: lastName,
-        username,
-        password
+      const res = await fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          username,
+          password
+        }),
       });
+      if (!res.ok) throw new Error('Registration failed');
       navigate('/login');
     } catch (err) {
-      alert('Fill the fields out correctly.');
+      alert('User Already exists.');
     }
   };
 

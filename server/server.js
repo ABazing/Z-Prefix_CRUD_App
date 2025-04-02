@@ -24,7 +24,7 @@ app.post('/register', async (req, res) => {
     const [user] = await knex('users').insert({ first_name, last_name, username, password }).returning('*');
     res.status(201).json(user);
   } catch (err) {
-    res.status(400).json({ error: 'Username already exists' });
+    res.status(400).json({ error: 'User already exists' });
   }
 });
 

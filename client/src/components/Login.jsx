@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Login({ setUser }) {
@@ -10,12 +9,20 @@ function Login({ setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/login', { username, password });
-      localStorage.setItem('user', JSON.stringify(res.data));
-      setUser(res.data);
+      const res = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!res.ok) throw new Error('Username or Password incorrect.');
+      const data = await res.json();
+      localStorage.setItem('user', JSON.stringify(data));
+      setUser(data);
       navigate('/inventory');
     } catch (err) {
-      alert('Username or Password is incorrect.');
+      alert('Username or Password incorrect.');
     }
   };
 

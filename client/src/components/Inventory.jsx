@@ -1,26 +1,31 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Inventory({ user }) {
-  const [myItems, setMyItems] = useState([]); // User's own items
-  const [allItems, setAllItems] = useState([]); // All items (public)
+  const [myItems, setMyItems] = useState([]);
+  const [allItems, setAllItems] = useState([]);
   const [newItem, setNewItem] = useState({ item_name: '', description: '', quantity: '' });
   const navigate = useNavigate();
 
   // Fetch user's items
   useEffect(() => {
     const fetchMyItems = async () => {
-      const res = await axios.get('http://localhost:3000/my-items', {
-        headers: { 'x-user-id': user.id }
+      const res = await fetch('http://localhost:3000/my-items', {
+        headers: {
+          'x-user-id': user.id
+        }
       });
-      setMyItems(res.data);
+      if (!res.ok) throw new Error('Failed to fetch user items');
+      const data = await res.json();
+      setMyItems(data);
     };
 
     // Fetch all items
     const fetchAllItems = async () => {
-      const res = await axios.get('http://localhost:3000/items');
-      setAllItems(res.data);
+      const res = await fetch('http://localhost:3000/items');
+      if (!res.ok) throw new Error('Failed to fetch all items');
+      const data = await res.json();
+      setAllItems(data);
     };
 
     fetchMyItems();
@@ -29,17 +34,31 @@ function Inventory({ user }) {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:3000/items', newItem, {
-      headers: { 'x-user-id': user.id }
+    const createRes = await fetch('http://localhost:3000/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': user.id
+      },
+      body: JSON.stringify(newItem)
     });
+    if (!createRes.ok) throw new Error('Failed to create item');
     setNewItem({ item_name: '', description: '', quantity: '' });
+
     // Refresh both lists after creating a new item
-    const myItemsRes = await axios.get('http://localhost:3000/my-items', {
-      headers: { 'x-user-id': user.id }
+    const myItemsRes = await fetch('http://localhost:3000/my-items', {
+      headers: {
+        'x-user-id': user.id
+      }
     });
-    const allItemsRes = await axios.get('http://localhost:3000/items');
-    setMyItems(myItemsRes.data);
-    setAllItems(allItemsRes.data);
+    if (!myItemsRes.ok) throw new Error('Failed to fetch user items');
+    const myItemsData = await myItemsRes.json();
+    setMyItems(myItemsData);
+
+    const allItemsRes = await fetch('http://localhost:3000/items');
+    if (!allItemsRes.ok) throw new Error('Failed to fetch all items');
+    const allItemsData = await allItemsRes.json();
+    setAllItems(allItemsData);
   };
 
   const handleLogout = () => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function PublicItems() {
@@ -8,8 +7,10 @@ function PublicItems() {
 
   useEffect(() => {
     const fetchItems = async () => {
-      const res = await axios.get('http://localhost:3000/items');
-      setItems(res.data);
+      const res = await fetch('http://localhost:3000/items');
+      if (!res.ok) throw new Error('Failed to fetch items');
+      const data = await res.json();
+      setItems(data);
     };
     fetchItems();
   }, []);

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function ItemDetails({ user }) {
@@ -11,28 +10,41 @@ function ItemDetails({ user }) {
 
   useEffect(() => {
     const fetchItem = async () => {
-      const res = await axios.get(`http://localhost:3000/items/${id}`);
-      setItem(res.data);
-      setFormData({ item_name: res.data.item_name, description: res.data.description, quantity: res.data.quantity });
+      const res = await fetch(`http://localhost:3000/items/${id}`);
+      if (!res.ok) throw new Error('Failed to fetch item');
+      const data = await res.json();
+      setItem(data);
+      setFormData({ item_name: data.item_name, description: data.description, quantity: data.quantity });
     };
     fetchItem();
   }, [id]);
 
   const handleUpdate = async () => {
-    await axios.put(`http://localhost:3000/items/${id}`, formData, {
-      headers: { 'x-user-id': user.id }
+    const updateRes = await fetch(`http://localhost:3000/items/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': user.id
+      },
+      body: JSON.stringify(formData)
     });
+    if (!updateRes.ok) throw new Error('Failed to update item');
     setIsEditing(false);
-    const res = await axios.get(`http://localhost:3000/items/${id}`);
-    setItem(res.data);
+    const fetchRes = await fetch(`http://localhost:3000/items/${id}`);
+    if (!fetchRes.ok) throw new Error('Failed to fetch item');
+    const data = await fetchRes.json();
+    setItem(data);
   };
 
   const handleDelete = async () => {
-    await axios.delete(`http://localhost:3000/items/${id}`, {
-      headers: { 'x-user-id': user.id }
+    const deleteRes = await fetch(`http://localhost:3000/items/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-user-id': user.id
+      }
     });
+    if (!deleteRes.ok) throw new Error('Failed to delete item');
     navigate('/inventory');
-    alert('Item Deleted.');
   };
 
   if (!item) return <div>Loading...</div>;
