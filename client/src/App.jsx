@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/login';
+import Register from './components/register';
+import Inventory from './components/inventory';
+import Item_Details from './components/item_details';
+import Public_Items from './components/public_items';
+import { useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/inventory" element={user ? <Inventory user={user} /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/items/:id" element={<Item_Details user={user} />} />
+        <Route path="/public_items" element={<Public_Items />} />
+        <Route path="/" element={<Navigate to="/public_items" />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
