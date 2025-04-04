@@ -10,7 +10,7 @@
     - cd server
     - npm install
     - Within the server directory edit your .env file, most importantly your DB_USER and DB_PASSWORD, or you can leave it.
-    - Run the migration and seed the database
+    - Run the migration and seed for the database
       - npx knex migrate:latest
       - npx knex seed:run
     - Start the server
@@ -25,17 +25,17 @@
   1. **Inventory Managers**:
       - Can log into exisiting accounts.
       - Can create accounts.
-      - Once logged in can see items they've created.
+      - Once logged in, they can see items they've created.
       - Can also view all items created by other inventory managers.
       - Can create items for the world to see!
-      - Can edit items they've created as well as delete.
+      - Can edit items they've created as well as delete them.
 
   2. **Visitors**:
       - Can view all items created by Inventory Managers.
       - Can click on items and view a details page about the item.
 
 ### How to login.
-  After following the "How to Install the App" instructions above you can do the following:
+  After following the "How to Install the App" instructions above, you can do the following:
   1. Visit http://localhost:5173, and use one of the follow pre-existing accounts.
       - (username: admin password: password)
       - (username: user2 password: password123)
